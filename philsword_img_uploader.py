@@ -43,6 +43,7 @@ def compress_image(infile, outfile=None, goalkb=400, step=10, quality=100):
     if file_size <= goalkb: 
         return infile
 
+    im.convert("RGB")
     outfile = IMAGE_COMPRESS_DIR + name + '.jpg'
 
     while file_size > goalkb:
