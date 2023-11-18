@@ -34,17 +34,16 @@ def get_file_name_suffix(file):
     suffix = items[-1]
     return name, suffix
 
-def compress_image(infile, outfile=None, goalkb=100, step=10, quality=80):
-    name, suffix = get_file_name_suffix(infile)
-    if suffix not in ['jpg', 'jpeg', 'bmp']:
-        return infile 
-
+def compress_image(infile, outfile=None, goalkb=400, step=10, quality=100):
+    ''' 当图片大小大于 goalkb 转为 jpg 存储
+    '''
+    name, _ = get_file_name_suffix(infile)
     file_size = get_file_size(infile)
     im = Image.open(infile)
     if file_size <= goalkb: 
         return infile
 
-    outfile = IMAGE_COMPRESS_DIR + name + '.' + suffix
+    outfile = IMAGE_COMPRESS_DIR + name + '.jpg'
 
     while file_size > goalkb:
         im.save(outfile, quality=quality)
@@ -56,10 +55,16 @@ def compress_image(infile, outfile=None, goalkb=100, step=10, quality=80):
 
 
 if __name__ == "__main__":
+
+    # 参数校验
     if len(sys.argv) < 3:
         print('need input token & image path')
         exit(-1)
+
+    # 获取token
     upload_token = sys.argv[1]
+
+    # 上传每张图片
     for file_path in sys.argv[2:]:
         if 'http' in file_path:
             # 网页图片
@@ -69,19 +74,22 @@ if __name__ == "__main__":
                 exit(-1)
             image_type = result.headers['content-type'].split('/')[-1]
             file_suffix = ''
-            if image_type == 'svg+xml' or image_type == 'svg':
-                file_suffix += 'svg'
-            elif image_type == 'png':
-                file_suffix += 'png'
-            elif image_type == 'jpeg':
-                file_suffix += 'jpeg'
-            elif image_type == 'jpg':
-                file_suffix += 'jpg'
-            elif image_type == 'gif':
-                file_suffix += 'gif'
-            elif image_type == 'bmp':
-                file_suffix += 'bmp'
-            else:
+            if image_type == 'svg+xml': file_suffix = 'svg'
+            elif image_type == 'svg': file_suffix = 'svg'
+            elif image_type == 'png': file_suffix = 'png'
+            elif image_type == 'jpeg': file_suffix = 'jpeg'
+            elif image_type == 'jpg': file_suffix = 'jpg'
+            elif image_type == 'gif': file_suffix = 'gif'
+            elif image_type == 'bmp': file_suffix = 'bmp'
+            elif image_type == 'image':
+                if '.' in file_path:
+                    if 'svg' in file_path.split('.')[-1]: file_suffix = 'svg'
+                    elif 'png' in file_path.split('.')[-1]: file_suffix = 'png'
+                    elif 'jpeg' in file_path.split('.')[-1]: file_suffix = 'jpeg'
+                    elif 'jpg' in file_path.split('.')[-1]: file_suffix = 'jpg'
+                    elif 'gif' in file_path.split('.')[-1]: file_suffix = 'gif'
+                    elif 'bmp' in file_path.split('.')[-1]: file_suffix = 'bmp'
+            if file_suffix == '':
                 print('not valid content-type type:', image_type)
                 exit(-1)
             # 生成md5
