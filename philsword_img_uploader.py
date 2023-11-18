@@ -14,7 +14,7 @@ BASE_DIR = sys.path[0]
 
 # token get by http://philsword.com/keysword/main
 IMAGE_PUT_TOKEN = 'philsword_token'
-
+IMAGE_DIR = BASE_DIR + '/images/'
 IMAGE_COMPRESS_DIR = BASE_DIR + '/images/compress/'
 IMAGE_COPYED_DIR = BASE_DIR + '/images/copyed/'
 
@@ -23,6 +23,8 @@ IMAGE_GET_HOST = 'philsword.com'
 IMAGE_PUT_URL = 'http://' + IMAGE_PUT_HOST + '/upimg'
 IMAGE_GET_URL = 'http://' + IMAGE_GET_HOST + '/img'
 
+if not os.path.exists(IMAGE_DIR):
+    os.makedirs(IMAGE_DIR)
 if not os.path.exists(IMAGE_COMPRESS_DIR):
     os.makedirs(IMAGE_COMPRESS_DIR)
 if not os.path.exists(IMAGE_COPYED_DIR):
