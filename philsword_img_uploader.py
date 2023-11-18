@@ -116,7 +116,6 @@ if __name__ == "__main__":
 
         if '"status":0' in post_result.text and '"upload_result":0' in post_result.text:
             print(IMAGE_GET_URL + '/' + json.loads(post_result.text)['data']['img_name'])
-            exit(0) 
         else:
             print('upload failed:' + post_result.text)
             exit(-1) 
