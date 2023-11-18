@@ -67,7 +67,7 @@ if __name__ == "__main__":
             if result.headers['content-type'].split('/')[0] != 'image':
                 print('not valid content-type url:', file_path)
                 exit(-1)
-            image_type = result.headers['content-type'].split('/')[1]
+            image_type = result.headers['content-type'].split('/')[-1]
             file_suffix = ''
             if image_type == 'svg+xml' or image_type == 'svg':
                 file_suffix += 'svg'
