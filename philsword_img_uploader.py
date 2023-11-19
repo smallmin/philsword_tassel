@@ -11,6 +11,7 @@ from requests.packages import urllib3
 urllib3.disable_warnings()
 
 IMAGE_DIR_PATH = os.path.dirname(__file__)
+# print(IMAGE_DIR_PATH)
 
 IMAGE_PUT_URL = 'http://philsword.com/upimg'
 IMAGE_GET_URL = 'http://philsword.com/img'
@@ -62,7 +63,7 @@ if __name__ == "__main__":
     # 参数校验
     if len(sys.argv) < 3:
         print('need input token & image path')
-        exit(-1)
+        sys.exit(-1)
 
     # 获取token
     upload_token = sys.argv[1]
@@ -74,7 +75,7 @@ if __name__ == "__main__":
             result = requests.get(file_path, verify=False)
             if result.headers['content-type'].split('/')[0] != 'image':
                 print('not valid content-type url:', file_path)
-                exit(-1)
+                sys.exit(-1)
             image_type = result.headers['content-type'].split('/')[-1]
             file_suffix = ''
             if image_type == 'svg+xml': file_suffix = 'svg'
@@ -94,7 +95,7 @@ if __name__ == "__main__":
                     elif 'bmp' in file_path.split('.')[-1]: file_suffix = 'bmp'
             if file_suffix == '':
                 print('not valid content-type type:', image_type)
-                exit(-1)
+                sys.exit(-1)
             # 生成md5
             md5 = hashlib.md5()
             md5.update(result.content)
@@ -108,7 +109,7 @@ if __name__ == "__main__":
             _, file_suffix = get_file_name_suffix(file_path)
             if file_suffix not in ['jpg','jpeg','png','gif','bmp','svg']:
                 print('not valid suffix type:', file_suffix)
-                exit(-1)
+                sys.exit(-1)
             md5 = hashlib.md5()
             md5.update(file_content)
             md5_code = md5.hexdigest()
@@ -129,4 +130,4 @@ if __name__ == "__main__":
             print(IMAGE_GET_URL + '/' + json.loads(post_result.text)['data']['img_name'])
         else:
             print('upload failed:' + post_result.text)
-            exit(-1) 
+            sys.exit(-1)
