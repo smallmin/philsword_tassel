@@ -39,7 +39,10 @@ def get_file_name_suffix(file):
 def compress_image(infile, outfile=None, goalkb=400, step=10, quality=100):
     ''' 当图片大小大于 goalkb 转为 jpg 存储
     '''
-    name, _ = get_file_name_suffix(infile)
+    name, suffix = get_file_name_suffix(infile)
+    if suffix in ['svg', 'gif']:
+        return infile
+
     file_size = get_file_size(infile)
     im = Image.open(infile)
     if file_size <= goalkb: 
