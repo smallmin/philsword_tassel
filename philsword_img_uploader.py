@@ -10,12 +10,13 @@ import hashlib
 from requests.packages import urllib3
 urllib3.disable_warnings()
 
+IMAGE_DIR_PATH = os.path.dirname(__file__)
+
 IMAGE_PUT_URL = 'http://philsword.com/upimg'
 IMAGE_GET_URL = 'http://philsword.com/img'
 
-BASE_DIR = sys.path[0]
-IMAGE_COMPRESS_DIR = BASE_DIR + '/images/compress/'
-IMAGE_COPYED_DIR = BASE_DIR + '/images/copyed/'
+IMAGE_COMPRESS_DIR = IMAGE_DIR_PATH + '/images/compress/'
+IMAGE_COPYED_DIR = IMAGE_DIR_PATH + '/images/copyed/'
 
 if not os.path.exists(IMAGE_COMPRESS_DIR):
     os.makedirs(IMAGE_COMPRESS_DIR)
